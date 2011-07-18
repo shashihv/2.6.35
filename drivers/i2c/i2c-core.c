@@ -126,6 +126,8 @@ static int i2c_device_probe(struct device *dev)
 		client->driver = NULL;
 		i2c_set_clientdata(client, NULL);
 	}
+	pm_runtime_set_active(dev);
+
 	return status;
 }
 
@@ -196,17 +198,12 @@ static int i2c_device_pm_suspend(struct device *dev)
 {
 	const struct dev_pm_ops *pm = dev->driver ? dev->driver->pm : NULL;
 
-<<<<<<< HEAD
-	if (pm)
-		return pm->suspend ? pm->suspend(dev) : 0;
-=======
 	if (pm) {
 		if (pm_runtime_suspended(dev))
 			return 0;
 		else
 			return pm->suspend ? pm->suspend(dev) : 0;
 	}
->>>>>>> 0ed766f... ADD: I2C driver backported from 2.6.36.1 kernel (by Imoseyon)
 
 	return i2c_legacy_suspend(dev, PMSG_SUSPEND);
 }
@@ -228,17 +225,12 @@ static int i2c_device_pm_freeze(struct device *dev)
 {
 	const struct dev_pm_ops *pm = dev->driver ? dev->driver->pm : NULL;
 
-<<<<<<< HEAD
-	if (pm)
-		return pm->freeze ? pm->freeze(dev) : 0;
-=======
 	if (pm) {
 		if (pm_runtime_suspended(dev))
 			return 0;
 		else
 			return pm->freeze ? pm->freeze(dev) : 0;
 	}
->>>>>>> 0ed766f... ADD: I2C driver backported from 2.6.36.1 kernel (by Imoseyon)
 
 	return i2c_legacy_suspend(dev, PMSG_FREEZE);
 }
@@ -247,17 +239,12 @@ static int i2c_device_pm_thaw(struct device *dev)
 {
 	const struct dev_pm_ops *pm = dev->driver ? dev->driver->pm : NULL;
 
-<<<<<<< HEAD
-	if (pm)
-		return pm->thaw ? pm->thaw(dev) : 0;
-=======
 	if (pm) {
 		if (pm_runtime_suspended(dev))
 			return 0;
 		else
 			return pm->thaw ? pm->thaw(dev) : 0;
 	}
->>>>>>> 0ed766f... ADD: I2C driver backported from 2.6.36.1 kernel (by Imoseyon)
 
 	return i2c_legacy_resume(dev);
 }
@@ -266,17 +253,12 @@ static int i2c_device_pm_poweroff(struct device *dev)
 {
 	const struct dev_pm_ops *pm = dev->driver ? dev->driver->pm : NULL;
 
-<<<<<<< HEAD
-	if (pm)
-		return pm->poweroff ? pm->poweroff(dev) : 0;
-=======
 	if (pm) {
 		if (pm_runtime_suspended(dev))
 			return 0;
 		else
 			return pm->poweroff ? pm->poweroff(dev) : 0;
 	}
->>>>>>> 0ed766f... ADD: I2C driver backported from 2.6.36.1 kernel (by Imoseyon)
 
 	return i2c_legacy_suspend(dev, PMSG_HIBERNATE);
 }
@@ -290,6 +272,12 @@ static int i2c_device_pm_restore(struct device *dev)
 		ret = pm->restore ? pm->restore(dev) : 0;
 	else
 		ret = i2c_legacy_resume(dev);
+
+	if (!ret) {
+		pm_runtime_disable(dev);
+		pm_runtime_set_active(dev);
+		pm_runtime_enable(dev);
+	}
 
 	return ret;
 }
@@ -388,7 +376,7 @@ struct i2c_client *i2c_verify_client(struct device *dev)
 }
 EXPORT_SYMBOL(i2c_verify_client);
 
-
+#if 0
 /* This is a permissive address validity check, I2C address map constraints
  * are purposedly not enforced, except for the general call address. */
 static int i2c_check_client_addr_validity(const struct i2c_client *client)
@@ -404,6 +392,7 @@ static int i2c_check_client_addr_validity(const struct i2c_client *client)
 	}
 	return 0;
 }
+#endif
 
 /* And this is a strict address validity check, used when probing. If a
  * device uses a reserved address, then it shouldn't be probed. 7-bit
@@ -556,7 +545,7 @@ i2c_new_device(struct i2c_adapter *adap, struct i2c_board_info const *info)
 	client->irq = info->irq;
 
 	strlcpy(client->name, info->type, sizeof(client->name));
-
+#if 0
 	/* Check for address validity */
 	status = i2c_check_client_addr_validity(client);
 	if (status) {
@@ -564,7 +553,7 @@ i2c_new_device(struct i2c_adapter *adap, struct i2c_board_info const *info)
 			client->flags & I2C_CLIENT_TEN ? 10 : 7, client->addr);
 		goto out_err_silent;
 	}
-
+#endif
 	/* Check for address business */
 	status = i2c_check_addr_busy(adap, client->addr);
 	if (status)
@@ -591,7 +580,7 @@ i2c_new_device(struct i2c_adapter *adap, struct i2c_board_info const *info)
 out_err:
 	dev_err(&adap->dev, "Failed to register i2c client %s at 0x%02x "
 		"(%d)\n", client->name, client->addr, status);
-out_err_silent:
+/* out_err_silent: */
 	kfree(client);
 	return NULL;
 }
