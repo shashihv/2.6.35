@@ -6,7 +6,12 @@ obj-$(CONFIG_I2C_BOARDINFO)	+= i2c-boardinfo.o
 obj-$(CONFIG_I2C)		+= i2c-core.o
 obj-$(CONFIG_I2C_SMBUS)		+= i2c-smbus.o
 obj-$(CONFIG_I2C_CHARDEV)	+= i2c-dev.o
+<<<<<<< HEAD
 obj-y				+= algos/ busses/
+=======
+obj-$(CONFIG_I2C_MUX)          += i2c-mux.o
+obj-y				+= busses/ chips/ algos/ muxes/
+>>>>>>> 0ed766f... ADD: I2C driver backported from 2.6.36.1 kernel (by Imoseyon)
 
 ifeq ($(CONFIG_I2C_DEBUG_CORE),y)
 EXTRA_CFLAGS += -DDEBUG
