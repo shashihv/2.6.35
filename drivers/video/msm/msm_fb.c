@@ -2970,10 +2970,23 @@ static int msm_fb_ioctl(struct fb_info *info, unsigned int cmd,
 #endif
 		break;
 
+<<<<<<< HEAD
 	default:
 		MSM_FB_INFO("MDP: unknown ioctl (cmd=%d) received!\n", cmd);
 		ret = -EINVAL;
 		break;
+=======
+	setup_fb_info(msmfb);
+
+	spin_lock_init(&msmfb->update_lock);
+	mutex_init(&msmfb->panel_init_lock);
+	init_waitqueue_head(&msmfb->frame_wq);
+	msmfb->resume_workqueue = alloc_workqueue("panel_on", WQ_HIGHPRI | WQ_CPU_INTENSIVE, 1);
+	if (msmfb->resume_workqueue == NULL) {
+		PR_DISP_ERR("failed to create panel_on workqueue\n");
+		ret = -ENOMEM;
+		goto error_create_workqueue;
+>>>>>>> 43a4709... ADD: new WORKQUE code from 36.1 and rest of kernel patched dangerously by Imoseyon - modified governors by LorD ClockaN
 	}
 
 	return ret;

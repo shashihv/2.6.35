@@ -595,8 +595,13 @@ static int __init cpufreq_smartass_init(void)
 	}
 
 	/* Scale up is high priority */
+<<<<<<< HEAD
 	up_wq = create_rt_workqueue("ksmartass_up");
 	down_wq = create_workqueue("ksmartass_down");
+=======
+	up_wq = alloc_workqueue("ksmartass2_up", WQ_HIGHPRI | WQ_CPU_INTENSIVE, 1);
+	down_wq = create_workqueue("ksmartass2_down");
+>>>>>>> 43a4709... ADD: new WORKQUE code from 36.1 and rest of kernel patched dangerously by Imoseyon - modified governors by LorD ClockaN
 
 	INIT_WORK(&freq_scale_work, cpufreq_smartass_freq_change_time_work);
 

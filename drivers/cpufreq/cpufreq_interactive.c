@@ -591,6 +591,7 @@ static int __init cpufreq_interactive_init(void)
 		pcpu->cpu_timer.data = i;
 	}
 
+<<<<<<< HEAD
 	up_task = kthread_create(cpufreq_interactive_up_task, NULL,
 				 "kinteractiveup");
 	if (IS_ERR(up_task))
@@ -601,6 +602,10 @@ static int __init cpufreq_interactive_init(void)
 
 	/* No rescuer thread, bind to CPU queuing the work for possibly
 	   warm cache (probably doesn't matter much). */
+=======
+	/* Scale up is high priority */
+	up_wq = alloc_workqueue("kinteractive_up", WQ_HIGHPRI | WQ_CPU_INTENSIVE, 1);
+>>>>>>> 43a4709... ADD: new WORKQUE code from 36.1 and rest of kernel patched dangerously by Imoseyon - modified governors by LorD ClockaN
 	down_wq = create_workqueue("knteractive_down");
 
 	if (! down_wq)

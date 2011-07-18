@@ -322,6 +322,7 @@ deps_config := \
 	drivers/spi/Kconfig \
 	drivers/i2c/busses/Kconfig \
 	drivers/i2c/algos/Kconfig \
+	drivers/i2c/muxes/Kconfig \
 	drivers/i2c/Kconfig \
 	drivers/s390/char/Kconfig \
 	drivers/char/tpm/Kconfig \
