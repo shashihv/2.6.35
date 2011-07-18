@@ -1,7 +1,7 @@
 #
 # Automatically generated make config: don't edit
 # Linux kernel version: 2.6.35.13
-# Mon Jul 18 04:31:26 2011
+# Mon Jul 18 04:48:27 2011
 #
 CONFIG_ARM=y
 CONFIG_SYS_SUPPORTS_APM_EMULATION=y
@@ -1340,11 +1340,6 @@ CONFIG_I2C_BOARDINFO=y
 CONFIG_I2C_COMPAT=y
 # CONFIG_I2C_CHARDEV is not set
 # CONFIG_I2C_MUX is not set
-
-#
-# Multiplexer I2C Chip support
-#
-# CONFIG_I2C_MUX_PCA954x is not set
 CONFIG_I2C_HELPER_AUTO=y
 CONFIG_I2C_ALGOBIT=y
 
