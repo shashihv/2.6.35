@@ -1,7 +1,7 @@
 /*
  * Automatically generated C config: don't edit
  * Linux kernel version: 2.6.35.13
- * Mon Jul 18 06:56:37 2011
+ * Mon Jul 18 05:28:18 2011
  */
 #define AUTOCONF_INCLUDED
 #define CONFIG_RING_BUFFER 1
@@ -511,7 +511,7 @@
 #define CONFIG_COMMON_CLKDEV 1
 #define CONFIG_MSM_CAMERA 1
 #define CONFIG_COMPAT_BRK 1
-#define CONFIG_LOCALVERSION "-franco.Kernel.v1-GINGERBREAD-TEST"
+#define CONFIG_LOCALVERSION "-franco.Kernel.v1-GINGERBREAD"
 #define CONFIG_RADIO_ADAPTERS 1
 #define CONFIG_CRYPTO 1
 #define CONFIG_DEFAULT_MMAP_MIN_ADDR 4096

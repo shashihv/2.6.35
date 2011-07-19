@@ -904,7 +904,7 @@ msmsdcc_irq(int irq, void *dev_id)
 #ifdef CONFIG_MMC_MSM_SDIO_SUPPORT
 		if (status & MCI_SDIOINTROPE) {
 			if (host->sdcc_suspending)
-				wake_lock_timeout(&host->sdio_suspend_wlock,HZ*2);
+				wake_lock(&host->sdio_suspend_wlock);
 			mmc_signal_sdio_irq(host->mmc);
 		}
 #endif
@@ -1423,7 +1423,7 @@ msmsdcc_platform_sdiowakeup_irq(int irq, void *dev_id)
 	printk("%s: [WiFi] SDIO Wake up IRQ  %d \n",__func__, irq);
 	spin_lock(&host->lock);
 	if (!host->sdio_irq_disabled) {
-		wake_lock_timeout(&host->sdio_wlock,HZ*2);
+		wake_lock(&host->sdio_wlock);
 		disable_irq_nosync(irq);
 		disable_irq_wake(irq);
 		host->sdio_irq_disabled = 1;
