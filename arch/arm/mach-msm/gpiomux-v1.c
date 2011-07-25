@@ -43,7 +43,6 @@ void __msm_gpiomux_write(unsigned gpio, struct gpiomux_setting val)
 		else
 			writel(bits & ~BIT(offset), out_reg);
 	}
-	dsb();
 	rc = msm_proc_comm(PCOM_RPC_GPIO_TLMM_CONFIG_EX,
 			   &tlmm_config, &tlmm_disable);
 	if (rc)
